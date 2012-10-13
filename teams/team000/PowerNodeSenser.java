@@ -3,7 +3,7 @@ package team000;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
 
-public class PowerNodeSensor {
+public class PowerNodeSenser {
 
     public static MapLocation getClosestCapturablePowerNode(RobotController rc) {
         MapLocation robotLocation = rc.getLocation();

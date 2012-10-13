@@ -8,7 +8,7 @@ import battlecode.common.RobotController;
  * @author sashko
  */
 public interface State {
-
+    
     public State run(RobotController rc, Knowledge knowledge);
 
 }
