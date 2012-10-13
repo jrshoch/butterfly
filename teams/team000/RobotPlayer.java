@@ -8,8 +8,13 @@ public class RobotPlayer {
         State state = new StartState();
         Knowledge knowledge = new Knowledge();
         while (true) {
-            state = state.run(myRC, knowledge);
-            myRC.yield();
+            try {
+                state = state.run(myRC, knowledge);
+                myRC.yield();
+            } catch (Exception e) {
+                e.printStackTrace();
+                myRC.yield();
+            }
         }
     }
 }
