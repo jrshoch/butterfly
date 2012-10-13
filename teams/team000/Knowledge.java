@@ -4,5 +4,7 @@ import battlecode.common.MapLocation;
 
 
 public class Knowledge {
+    
+    MapLocation pathGoal;
 
 }

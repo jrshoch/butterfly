@@ -1,7 +1,5 @@
 package team000;
 
-import java.util.Map;
-
 import battlecode.common.RobotController;
 
 /**
@@ -10,6 +8,6 @@ import battlecode.common.RobotController;
  */
 public interface State {
     
-    State run(RobotController rc, Knowledge knowledge);
+    public State run(RobotController rc, Knowledge knowledge);
 
 }
