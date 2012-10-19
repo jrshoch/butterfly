@@ -1,5 +1,6 @@
 package team000;
 
+import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 
 /**
@@ -9,6 +10,6 @@ import battlecode.common.RobotController;
  */
 public interface State {
     
-    public State run(RobotController rc, Knowledge knowledge);
+    public State run(RobotController rc, Knowledge knowledge) throws GameActionException;
 
 }
