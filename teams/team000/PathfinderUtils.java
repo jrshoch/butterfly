@@ -1,12 +1,6 @@
 package team000;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
 import battlecode.common.Direction;
-import battlecode.common.MapLocation;
-import battlecode.common.RobotController;
 
 
 public class PathfinderUtils {
@@ -14,12 +8,6 @@ public class PathfinderUtils {
     public enum PathfinderState {
         MOTION_TO_GOAL,
         FOLLOW_BOUNDARY
-    }
-    
-    public static MapLocation tangentBugHeuristicMinimizingPoint(RobotController rc, MapLocation goal) {
-        // Send out fake bugs, at each location traverse clockwise and counterclockwise
-        
-        List<MapLocation> boundaries = new ArrayList<MapLocation>();
     }
     
     public static Direction directionFromDeltas(int dx, int dy) {

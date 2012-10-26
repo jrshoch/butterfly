@@ -8,8 +8,8 @@ public class StartState implements State {
 
     @Override
     public State run(RobotController rc, Knowledge knowledge) {
-        knowledge.pathGoal = new MapLocation(rc.getLocation().x - 40, rc.getLocation().y + 40);
-        return new PathfinderTestState();
+        knowledge.pathGoal = rc.senseCapturablePowerNodes()[0];
+        return new BuildSomeTowersState();
     }
 
 }
