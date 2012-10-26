@@ -1,5 +1,6 @@
-package team000;
+package team000.state;
 
+import team000.Knowledge;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 

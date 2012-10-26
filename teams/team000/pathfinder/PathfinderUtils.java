@@ -1,4 +1,4 @@
-package team000;
+package team000.pathfinder;
 
 import battlecode.common.Direction;
 

@@ -1,5 +1,7 @@
-package team000;
+package team000.pathfinder;
 
+import team000.Knowledge;
+import team000.MovementAction;
 import battlecode.common.Direction;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;

@@ -1,5 +1,6 @@
-package team000;
+package team000.state;
 
+import team000.Knowledge;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
 
