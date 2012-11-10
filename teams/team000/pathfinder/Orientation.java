@@ -28,4 +28,15 @@ public enum Orientation {
 				throw new RuntimeException("Hocho: case not handled in switch statement.");
 		}
 	}
+	
+	public Orientation opposite() {
+		switch(this) {
+			case CLOCKWISE:
+				return COUNTERCLOCKWISE;
+			case COUNTERCLOCKWISE:
+				return CLOCKWISE;
+			default:
+				throw new RuntimeException("Hocho: case not handled in switch statement.");
+		}
+	}
 }

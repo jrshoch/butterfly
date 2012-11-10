@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import team000.pathfinder.Orientation;
+import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
@@ -20,6 +21,7 @@ public class Knowledge {
 	public int tracingRotations;
 	public Direction tracingDesiredDirection;
 	public int tracingRotationThreshold;
+	public boolean changedOrientationThresholdOn;
 
 	public void updateTracingInformation(Direction newDirection, int rotations, RobotController rc) {
 		tracingDirection = newDirection;
@@ -36,13 +38,17 @@ public class Knowledge {
 			}
 			tracingDesiredDirection = desiredDirection;
 		}
-		if (rc.canMove(desiredDirection) && tracingRotations <= tracingRotationThreshold) {
-			tracing = false;
+		if (rc.canMove(desiredDirection)) {
+			int threshold = tracingRotationThreshold + (changedOrientationThresholdOn ? -2 : 0);
+			if (tracingRotations <= threshold) {
+				tracing = false;
+			}
 		}
 		rc.setIndicatorString(1, "tracing: " + tracing + ", tracingDirection: " + tracingDirection
 				+ ", tracingOrientation: " + tracingOrientation + ", tracingRotations: "
 				+ tracingRotations + ", tracingDesiredDirection: " + tracingDesiredDirection
-				+ ", tracingRotationsThreshold: " + tracingRotationThreshold);
+				+ ", tracingRotationsThreshold: " + tracingRotationThreshold
+				+ ", changeOrientationThresholdOn: " + changedOrientationThresholdOn);
 	}
 
 	public void startTracing(Orientation orientation, Direction desiredDirection) {
@@ -52,5 +58,23 @@ public class Knowledge {
 		tracingRotations = 1;
 		tracingDesiredDirection = desiredDirection;
 		tracingRotationThreshold = 0;
+		changedOrientationThresholdOn = false;
+	}
+
+	public MovementAction switchTracingOrientation(RobotController rc) {
+		rc.setIndicatorString(2, "Switching orientation at round: " + Clock.getRoundNum());
+		tracingOrientation = tracingOrientation.opposite();
+		tracingRotations *= -1;
+		tracingRotationThreshold *= -1;
+		changedOrientationThresholdOn = true;
+		tracingDirection = tracingOrientation.nextDirection(tracingDirection);
+		for (int rotations = 1; rotations < OurConstants.NUMBER_OF_DIRECTIONS; rotations++) {
+			if (rc.canMove(tracingDirection)) {
+				updateTracingInformation(tracingDirection, rotations, rc);
+				return MovementAction.createActionInDirection(tracingDirection, rc);
+			}
+			tracingDirection = tracingOrientation.nextDirection(tracingDirection);
+		}
+		return MovementAction.STANDSTILL;
 	}
 }
