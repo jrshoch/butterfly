@@ -2,6 +2,7 @@ package team000.state;
 
 import team000.Knowledge;
 import battlecode.common.GameActionException;
+import battlecode.common.GameConstants;
 import battlecode.common.MapLocation;
 import battlecode.common.Robot;
 import battlecode.common.RobotController;
@@ -25,7 +26,6 @@ public class SoldierStartState implements State {
                 if (r.getTeam() == rc.getTeam().opponent()) {
                     MapLocation l = rc.senseLocationOf(r);
                     if (rc.canAttackSquare(l)) {
-                        System.out.println(rc.getType());
                         rc.attackSquare(l, r.getRobotLevel());
                         break;
                     }

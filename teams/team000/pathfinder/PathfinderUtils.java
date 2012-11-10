@@ -1,5 +1,6 @@
 package team000.pathfinder;
 
+import team000.Vector;
 import battlecode.common.Direction;
 
 
@@ -11,30 +12,6 @@ public class PathfinderUtils {
     }
     
     public static Direction directionFromDeltas(int dx, int dy) {
-        if (dx < 0) {
-            if (dy < 0) {
-                return Direction.NORTH_WEST;
-            } else if (dy > 0) {
-                return Direction.SOUTH_WEST;
-            } else {
-                return Direction.WEST;
-            }
-        } else if (dx > 0) {
-            if (dy < 0) {
-                return Direction.NORTH_EAST;
-            } else if (dy > 0) {
-                return Direction.SOUTH_EAST;
-            } else {
-                return Direction.EAST;
-            }
-        } else {
-            if (dy < 0) {
-                return Direction.NORTH;
-            } else if (dy > 0) {
-                return Direction.SOUTH;
-            } else {
-                return Direction.NONE;
-            }
-        }
+        return (new Vector(dx, dy)).direction();
     }
 }

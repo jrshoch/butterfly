@@ -3,9 +3,8 @@ package team000;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
 
-
 public class ArchonCalculator {
-    
+
     public static MapLocation getNearestArchonLocation(RobotController rc) {
         MapLocation robotLocation = rc.getLocation();
         MapLocation[] archonLocations = rc.senseAlliedArchons();
@@ -20,7 +19,10 @@ public class ArchonCalculator {
         }
         return closestArchonLocation;
     }
-    
+
+    /**
+     * Get the average location of all archons on the map
+     */
     public static MapLocation getAverageArchonLocation(RobotController rc) {
         int totalX = 0;
         int totalY = 0;
@@ -31,6 +33,33 @@ public class ArchonCalculator {
         }
         int nArchons = archonLocations.length;
         return new MapLocation(totalX / nArchons, totalY / nArchons);
+    }
+
+    /**
+     * Get the average location of all archons within minRadiusSquared and
+     * maxRadiusSquared
+     */
+    public static MapLocation getAverageArchonLocationWithin(RobotController rc,
+            int minRadiusSquared, int maxRadiusSquared) {
+        int totalX = 0;
+        int totalY = 0;
+        MapLocation[] archonLocations = rc.senseAlliedArchons();
+        int numArchonsWithinDistance = 0;
+        for (MapLocation archonLocation : archonLocations) {
+            int d = rc.getLocation().distanceSquaredTo(archonLocation);
+            if (d >= minRadiusSquared && d <= maxRadiusSquared) {
+                totalX += archonLocation.x;
+                totalY += archonLocation.y;
+                numArchonsWithinDistance++;
+
+            }
+        }
+        if (numArchonsWithinDistance > 0) {
+            return new MapLocation(totalX / numArchonsWithinDistance, totalY
+                    / numArchonsWithinDistance);
+        } else {
+            return rc.getLocation();
+        }
     }
 
 }

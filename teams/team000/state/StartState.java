@@ -11,7 +11,7 @@ public class StartState implements State {
     public State run(RobotController rc, Knowledge knowledge) {
         knowledge.pathGoal = rc.senseCapturablePowerNodes()[0];
         if (rc.getType() == RobotType.ARCHON) {
-            return new BuildSomeTowersState();
+            return new ArchonFlockTestState();
         } else {
             return new SoldierStartState();
         }
