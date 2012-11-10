@@ -7,7 +7,6 @@ import team000.CollectionUtils;
 import team000.Knowledge;
 import team000.MovementAction;
 import team000.pathfinder.GroundPathfinder;
-import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.GameConstants;
 import battlecode.common.GameObject;
@@ -65,14 +64,10 @@ public class BuildSomeTowersState implements State {
                     rc.spawn(RobotType.SOLDIER);
                 } else {
 
-                    MovementAction ma = GroundPathfinder.nextStep(rc, knowledge);
+                	MovementAction ma = GroundPathfinder.nextStep(rc, knowledge);
                     try {
-                        if (ma.movement > 0) {
-                            rc.moveForward();
-                        } else if (ma.direction != Direction.NONE && ma.direction != Direction.OMNI) {
-                            rc.setDirection(ma.direction);
-                        }
-                    } catch (Exception e) {
+                    	ma.execute(rc);
+                    } catch (GameActionException e) {
                         e.printStackTrace();
                     }
                 }
