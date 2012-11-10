@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import battlecode.common.MapLocation;
-
 public class CollectionUtils {
 
     public static <E> List<E> subtract(Collection<E> whole, Set<E> part) {

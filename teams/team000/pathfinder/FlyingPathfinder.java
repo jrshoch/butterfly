@@ -12,7 +12,7 @@ public class FlyingPathfinder {
 
         MapLocation myLocation = rc.getLocation();
         if (myLocation.equals(knowledge.pathGoal)) {
-            return new MovementAction(0, Direction.NONE);
+            return MovementAction.STANDSTILL;
         }
 
         int dx = knowledge.pathGoal.x - myLocation.x;
@@ -20,11 +20,7 @@ public class FlyingPathfinder {
 
         Direction desiredDirection = PathfinderUtils.directionFromDeltas(dx, dy);
 
-        if (desiredDirection == rc.getDirection()) {
-            return new MovementAction(1, Direction.NONE);
-        } else {
-            return new MovementAction(0, desiredDirection);
-        }
+        return MovementAction.createActionInDirection(desiredDirection, rc);
     }
 
 }
