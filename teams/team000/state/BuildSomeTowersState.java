@@ -12,6 +12,7 @@ import battlecode.common.GameActionException;
 import battlecode.common.GameConstants;
 import battlecode.common.GameObject;
 import battlecode.common.MapLocation;
+import battlecode.common.Robot;
 import battlecode.common.RobotController;
 import battlecode.common.RobotLevel;
 import battlecode.common.RobotType;
@@ -20,6 +21,20 @@ public class BuildSomeTowersState implements State {
 
     @Override
     public State run(RobotController rc, Knowledge knowledge) throws GameActionException {
+
+        // first move around some flux
+        Robot[] robots = rc.senseNearbyGameObjects(Robot.class);
+        for (Robot r : robots) {
+            if (r.getTeam() == rc.getTeam()) {
+                MapLocation l = rc.senseLocationOf(r);
+                if (rc.getLocation().isAdjacentTo(l)) {
+
+                    rc.transferFlux(rc.senseLocationOf(r), r.getRobotLevel(),
+                            GameConstants.UNIT_UPKEEP * 2);
+                }
+            }
+        }
+
         List<MapLocation> potentialLocations = CollectionUtils.subtract(
                 Arrays.asList(rc.senseCapturablePowerNodes()), knowledge.enemyTowers);
         if (potentialLocations.size() > 0) {
@@ -45,15 +60,21 @@ public class BuildSomeTowersState implements State {
 
             // first case: need to keep moving
             if (!rc.getLocation().isAdjacentTo(knowledge.pathGoal)) {
-                MovementAction ma = GroundPathfinder.nextStep(rc, knowledge);
-                try {
-                    if (ma.movement > 0) {
-                        rc.moveForward();
-                    } else if (ma.direction != Direction.NONE && ma.direction != Direction.OMNI) {
-                        rc.setDirection(ma.direction);
+                // potentially spawn a dude
+                if (rc.canMove(rc.getDirection()) && rc.getFlux() > RobotType.SOLDIER.spawnCost) {
+                    rc.spawn(RobotType.SOLDIER);
+                } else {
+
+                    MovementAction ma = GroundPathfinder.nextStep(rc, knowledge);
+                    try {
+                        if (ma.movement > 0) {
+                            rc.moveForward();
+                        } else if (ma.direction != Direction.NONE && ma.direction != Direction.OMNI) {
+                            rc.setDirection(ma.direction);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
             // second case: need to build tower
